@@ -26,8 +26,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
     <Routes>
-      <Route path='/login' element={<LoginPage/>}/>
-      <Route path='/siswa/login' element={<SiswaLoginPage/>}/>
+      <Route path='/' element={<SiswaLoginPage/>}/>
+      <Route path='/login' exact element={<LoginPage/>}/>
       <Route path='/:userId/dashboard' element={<DashboardSiswaPage/>}/>
       <Route path='/:userId/dashboard/ujian' element={<ExamPage/>}/>
       <Route path='/:userId/jadwal-ujian' element={<JadwalUjianPage/>}/>
