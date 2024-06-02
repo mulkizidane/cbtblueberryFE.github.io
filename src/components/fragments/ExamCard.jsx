@@ -41,7 +41,7 @@ const ExamCard = ({name, exam, grade, total, minute, kkm, start, finish, onClick
                                 </div>
                             </div>
                             {
-                                userId == 'admin' ? 
+                                userId == 'admin' || userId == 'guru'? 
                                 ''
                                 :
                                 <button onClick={onClick} className="bg-btn text-white w-full text-center py-1 text-sm mt-2 rounded-lg">Mulai Ujian</button>
