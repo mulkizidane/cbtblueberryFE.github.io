@@ -1,15 +1,40 @@
 /* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import DateFormatName from "../../utils/DateFormatName";
+import axios from "axios";
 
-const ExamModalLayout = ({showModal}) => {
+const ExamModalLayout = ({showModal, user, examData}) => {
+    const [selectedDt, setSelectedDt] = useState(null)
+    const [tokenVal, setTokenVal] = useState('')
+    const totalQustions = selectedDt?.total_multiple_choices + selectedDt?.total_essay
     const data = [
-        { label: 'Nama Peserta Ujian', value: 'Test siswa 1' },
+        { label: 'Nama Peserta Ujian', value: user?.data.name },
         { label: 'Pengawas Ruangan', value: 'Guru' },
-        { label: 'Mata Pelajaran', value: 'Matematika' },
-        { label: 'Jumlah Soal', value: '30 Soal (25 PG, 5 ESAY)' },
-        { label: 'Waktu Ujian', value: '55 menit' },
-        { label: 'Tanggal Pelaksanaan', value: '22 May 2024' },
+        { label: 'Mata Pelajaran', value: selectedDt?.subject },
+        { label: 'Jumlah Soal', value: `${totalQustions} Soal (${selectedDt?.total_multiple_choices} PG, ${selectedDt?.total_essay} ESAY)` },
+        { label: 'Waktu Ujian', value: selectedDt?.exam_duration },
+        { label: 'Tanggal Pelaksanaan', value: DateFormatName(selectedDt?.start_exam) },
     ];
+
+    useEffect(() => {
+        if(showModal){
+            const selectedData = examData?.find(dt => dt.exam_code == showModal)
+            setSelectedDt(selectedData)
+        }
+    }, [showModal])
+    
+    const handleSubmitToken = async() => {
+        try {
+            const verifyToken = await axios.get(`http://localhost:5000/exams/class/${user?.data.class}/${tokenVal}`)
+            alert(verifyToken.data.msg)
+            localStorage.setItem('examToken', JSON.stringify(tokenVal))
+            window.location.href = `/siswa/ujian/${selectedDt?.exam_code}`
+        } catch (error) {
+            console.log(error)
+            alert(error.response.data.msg)
+        }
+    }
 
     return (
         <>
@@ -19,7 +44,7 @@ const ExamModalLayout = ({showModal}) => {
                     <h1 className="text-lg font-bold">Simulasi Ujian Berbasis CBT</h1>
                     <div className="w-full bg-btn-sec text-white px-4 py-4 mt-2">
                         <h1 className="font-semibold">Peraturan Ujian !</h1>
-                        <p className="text-sm text-neutral-200">Lorem, ipsum dolor sit amet consectetur adipisicing elit. In beatae tempore quaerat molestiae? Odit facilis perspiciatis, at fugit incidunt, libero quo, alias impedit culpa reiciendis dolorem. Impedit a magnam qui.</p>
+                        <p className="text-sm text-neutral-200">Kerjakan ujian sesuai waktu yang di tentukan, dilarang keluar atau berpindah dari tab ujian, jika siswa keluar ataupun berpindah dari tab ujian akan dianggap melakukan pelanggaran, maka ujian akan di hentikan dan di anggap selesai</p>
                     </div>
                 </div>
                 <div className="pt-4">
@@ -38,11 +63,9 @@ const ExamModalLayout = ({showModal}) => {
                         </table>
                     </div>
                     <div className="justify-end flex gap-2 font-medium mt-16">
-                        <input type="text" className="border-2 px-6 py-1 border-neutral-400 bg-transparent" placeholder="MASUKKAN TOKEN"/>
-                        <button className="border-2 px-6 py-1 bg-btn-sec text-white">
-                            <Link to={'/siswa/dashboard/ujian'}>
+                        <input onChange={(e) => setTokenVal(e.target.value)} type="text" className="border-2 px-6 py-1 border-neutral-400 bg-transparent" placeholder="MASUKKAN TOKEN"/>
+                        <button onClick={handleSubmitToken} className="border-2 px-6 py-1 bg-btn-sec text-white">
                             MULAI
-                            </Link>
                         </button>
                     </div>
                 </div>

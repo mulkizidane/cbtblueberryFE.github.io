@@ -4,9 +4,13 @@ import Time from "../components/elements/Time";
 import CompleteCard from "../components/layouts/CompleteCard";
 import Layout from "../components/layouts/Layout"
 import TableHead from "../components/elements/TableHead";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import DateFormatName from "../utils/DateFormatName";
 
 const CetakDataPage = () => {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
     const head = [
         {"name": "#"},
         {"name": "NIM"},
@@ -14,23 +18,57 @@ const CetakDataPage = () => {
         {"name": "Kelas"},
         {"name": "Mapel"},
         {"name": "Tanggal Ujian"},
-        {"name": "Nilai PG"},
-        {"name": "Nilai Essai"},
         {"name": "Total Nilai"},
         {"name": "Nilai KKM"},
         {"name": "Keterangan"},
-        {"name": ""},
-    ]
+    ];
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get(`http://localhost:5000/student/exam-results`);
+                const isExamResults = res.data.data.filter(dt => dt.ExamResults.length !== 0);
+                if (isExamResults) {
+                    setData(isExamResults);
+                    console.log(isExamResults);
+                }
+                setLoading(false);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchData();
+    }, []);
+
+    const handleExport = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/exam-results/export', {
+                responseType: 'blob'
+            });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'ExamResults.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.log('Error exporting file:', error);
+        }
+    }
 
     return (
-        <>
         <Layout>
             <div className="pt-20 px-7 w-full">
                 <div className="w-full flex justify-end gap-2 py-4">
-                    <DateComponent/>
-                    <Time/>
+                    <DateComponent />
+                    <Time />
                 </div>
-                <CompleteCard title={'Hasil Nilai'} icon={<FaFileCircleCheck/>}>
+                <div className="flex justify-end">
+                <button className="bg-btn text-white px-4 py-1 rounded-lg mb-2" onClick={handleExport}>Export File</button>
+                </div>
+                <CompleteCard title={'Hasil Nilai'} icon={<FaFileCircleCheck />}>
                     <table className="w-full rounded-lg overflow-hidden">
                         <TableHead>
                             {
@@ -42,27 +80,25 @@ const CetakDataPage = () => {
                             }
                         </TableHead>
                         <tbody>
-                            <tr className="text-sm">
-                                <td>1</td>
-                                <td>2401001</td>
-                                <td>Test Siswa 1</td>
-                                <td>12</td>
-                                <td>Matematika</td>
-                                <td>2024-05-22</td>
-                                <td>12 Point</td>
-                                <td></td>
-                                <td>Online</td>
-                                <td>70</td>
-                                <td>Tidak lulus</td>
-                                <td className="flex items-center justify-center text-lg gap-2">
-                                        <FaEdit className="text-yellow-500"/>
-                                        <FaTrash className="text-red-500"/>
-                                </td>
-                            </tr>
                             {
-                                Array.from({length: 7}).map((_, i) => (
+                                data?.map((dt, i) => (
+                                    <tr key={dt.nis} className="text-sm">
+                                        <td>{i + 1}</td>
+                                        <td>{dt.nis}</td>
+                                        <td>{dt.name}</td>
+                                        <td>{dt.class}</td>
+                                        <td>{dt.ExamResults[0].subject}</td>
+                                        <td>{DateFormatName(dt.ExamResults[0].exam_date)}</td>
+                                        <td>{dt.ExamResults[0].total_grade}</td>
+                                        <td>{dt.ExamResults[0].passing_score}</td>
+                                        <td>{dt.ExamResults[0].information}</td>
+                                    </tr>
+                                ))
+                            }
+                            {
+                                Array.from({ length: 7 }).map((_, i) => (
                                     <tr key={i}>
-                                        <td colSpan={12}>{i+2}</td>
+                                        <td colSpan={12}>{i + 2}</td>
                                     </tr>
                                 ))
                             }
@@ -71,8 +107,7 @@ const CetakDataPage = () => {
                 </CompleteCard>
             </div>
         </Layout>
-        </>
-    )
+    );
 }
 
 export default CetakDataPage;

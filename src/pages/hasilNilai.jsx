@@ -5,8 +5,13 @@ import CompleteCard from "../components/layouts/CompleteCard";
 import Layout from "../components/layouts/Layout"
 import TableHead from "../components/elements/TableHead";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import DateFormatName from "../utils/DateFormatName";
 
 const HasilNilaiPage = () => {
+    const [data, setData] = useState(null)
+    const [loading, setLoading] = useState(true)
     const head = [
         {"name": "#"},
         {"name": "NIM"},
@@ -14,13 +19,27 @@ const HasilNilaiPage = () => {
         {"name": "Kelas"},
         {"name": "Mapel"},
         {"name": "Tanggal Ujian"},
-        {"name": "Nilai PG"},
-        {"name": "Nilai Essai"},
         {"name": "Total Nilai"},
         {"name": "Nilai KKM"},
         {"name": "Keterangan"},
-        {"name": ""},
     ]
+   
+    useEffect(() => {
+        const fetchData = async() => {
+            try {
+                    const res = await axios.get(`http://localhost:5000/student/exam-results`)
+                    const isExamResults = res.data.data.filter(dt => dt.ExamResults.length !== 0)
+                    if(isExamResults){
+                        setData(isExamResults)
+                    }
+                    setLoading(false)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        fetchData()
+    }, [])
 
     return (
         <>
@@ -42,23 +61,21 @@ const HasilNilaiPage = () => {
                             }
                         </TableHead>
                         <tbody>
-                            <tr className="text-sm">
-                                <td>1</td>
-                                <td>2401001</td>
-                                <td>Test Siswa 1</td>
-                                <td>12</td>
-                                <td>Matematika</td>
-                                <td>2024-05-22</td>
-                                <td>12 Point</td>
-                                <td></td>
-                                <td>Online</td>
-                                <td>70</td>
-                                <td>Tidak lulus</td>
-                                <td className="flex items-center justify-center text-lg gap-2">
-                                        <FaEdit className="text-yellow-500"/>
-                                        <FaTrash className="text-red-500"/>
-                                </td>
+                            {
+                                data?.map((dt, i) => (
+                            <tr key={dt.nis} className="text-sm">
+                                <td>{i+1}</td>
+                                <td>{dt.nis}</td>
+                                <td>{dt.name}</td>
+                                <td>{dt.class}</td>
+                                <td>{dt.ExamResults[0].subject}</td>
+                                <td>{DateFormatName(dt.ExamResults[0].exam_date)}</td>
+                                <td>{dt.ExamResults[0].total_grade}</td>
+                                <td>{dt.ExamResults[0].passing_score}</td>
+                                <td>{dt.ExamResults[0].information}</td>
                             </tr>
+                                ))
+                            }
                             {
                                 Array.from({length: 7}).map((_, i) => (
                                     <tr key={i}>

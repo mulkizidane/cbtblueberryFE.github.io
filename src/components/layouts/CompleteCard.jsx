@@ -1,7 +1,8 @@
 import { FaDownload } from "react-icons/fa"
 import Heading from "./Heading"
 
-const CompleteCard = ({title, icon, isImportFile, isAddSoal, setShowModal, isAddEntries, children, setShowSoal, isSearch}) => {
+// eslint-disable-next-line react/prop-types
+const CompleteCard = ({title, icon, isImportFile, isAddSoal, setShowModal, isAddEntries, children, setShowSoal, isSearch, onClick}) => {
     return (
         <>
         <div className={`bg-primary w-full rounded-xl overflow-hidden shadow-multiple`}>
@@ -37,7 +38,7 @@ const CompleteCard = ({title, icon, isImportFile, isAddSoal, setShowModal, isAdd
                             }
                             {
                                 isImportFile ?
-                                <button onClick={() => setShowModal(true)} className="flex items-center gap-2 text-white font-semibold bg-btn rounded-lg px-3 py-1">
+                                <button onClick={setShowModal} className="flex items-center gap-2 text-white font-semibold bg-btn rounded-lg px-3 py-1">
                                     <FaDownload/>
                                     Import File
                                 </button>

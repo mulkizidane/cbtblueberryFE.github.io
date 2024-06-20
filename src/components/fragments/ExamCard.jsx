@@ -2,11 +2,11 @@
 import { FaTag, FaUserFriends } from "react-icons/fa"
 import { useParams } from "react-router-dom";
 
-const ExamCard = ({name, exam, grade, total, minute, kkm, start, finish, onClick}) => {
+const ExamCard = ({isDone, name, exam, grade, total, minute, kkm, start, finish, onClick}) => {
     const { userId } = useParams()
 
     return (
-        <div className="rounded-lg overflow-hidden shadow-multiple">
+        <div className={`rounded-lg overflow-hidden shadow-multiple ${isDone ? 'hidden' : ''}`}>
                         <div className="flex bg-btn text-white px-4 py-4 gap-4">
                             <img src="/img/test.png" alt="" className="w-8 h-8"/>
                             <div>

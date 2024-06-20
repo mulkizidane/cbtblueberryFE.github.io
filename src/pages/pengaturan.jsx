@@ -3,15 +3,32 @@ import DateComponent from "../components/elements/Date"
 import Time from "../components/elements/Time"
 import Layout from "../components/layouts/Layout"
 import { FaChevronDown } from "react-icons/fa"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import InputFile from "../components/elements/InputFile"
 import { useParams } from "react-router-dom"
 import RoundInput from "../components/elements/RoundInput"
+import axios from "axios"
+import StudentContext from "../context/StudentContext"
 
 const PengaturanPage = () => {
     const {userId} = useParams()
+    const {user} = useContext(StudentContext)
     const [showTab, setShowTab] = useState(false)
+    const [newData, setNewData] = useState({
+        nip: 0,
+        teacher_name: '',
+        username: '',
+        password: ''
+    })
 
+    async function handleUploadData(){
+        try {
+            const res = await axios.patch(`http://localhost:5000/teachers/${user?.data.nip}`, newData)
+            console.log(res)
+        } catch (error) {
+            console.log(error.response.data.msg)
+        }
+    }
 
     return (
         <>
@@ -34,14 +51,14 @@ const PengaturanPage = () => {
                                         <img src="/img/profile.png" className="w-20"/>
                                     </div>
                                     <div className="flex flex-col gap-4 w-[50%]">
-                                        <RoundInput title={'Nama Lengkap'} isRow={true} width={'w-full'}/>
-                                        <RoundInput title={'NIP'} isRow={true} width={'w-full'}/>
-                                        <RoundInput title={'Username'} isRow={true} width={'w-full'}/>
-                                        <RoundInput title={'Password'} type={'password'} isRow={true} width={'w-full'}/>
+                                        <RoundInput onChange={(e) => setNewData({...newData, teacher_name: e.target.value})} title={'Nama Lengkap'} isRow={true} width={'w-full'}/>
+                                        <RoundInput onChange={(e) => setNewData({...newData, nip: e.target.value})} title={'NIP'} isRow={true} width={'w-full'}/>
+                                        <RoundInput onChange={(e) => setNewData({...newData, username: e.target.value})} title={'Username'} isRow={true} width={'w-full'}/>
+                                        <RoundInput onChange={(e) => setNewData({...newData, password: e.target.value})} title={'Password'} type={'password'} isRow={true} width={'w-full'}/>
                                     </div>
                                 </div>
                                 <div className="flex justify-end">
-                                    <button className="font-bold text-white bg-btn px-6 text-sm py-1 rounded-lg">SIMPAN</button>
+                                    <button onClick={handleUploadData} className="font-bold text-white bg-btn px-6 text-sm py-1 rounded-lg">SIMPAN</button>
                                 </div>
                             </div>
                             :

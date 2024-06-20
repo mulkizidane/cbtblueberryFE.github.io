@@ -10,13 +10,10 @@ const DashboardSiswaPage = () => {
         <>
         <Layout>
             {
-                userId == 'siswa' || userId == 'guru' ?
-                <DashboardLayout user={userId}/>
-                :
                 userId == 'admin' ?
                 <AdminDashboardLayout/>
                 : 
-                <h1>NULL</h1>
+                <DashboardLayout userId={userId}/>
             }
         </Layout>
         </>

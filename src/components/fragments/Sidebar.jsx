@@ -28,7 +28,7 @@ const Sidebar = ({showSidebar}) => {
 
     if(userId == 'guru'){
         return (
-            <div className={`h-screen ${!showSidebar ? 'w-0' : closeSidebar ? 'w-0' : 'w-64'} overflow-hidden bg-primary pt-24 flex flex-col gap-2 transition-all duration-500`}>
+            <div className={`h-dvh fixed z-40 top-0 left-0 ${!showSidebar ? 'w-0' : closeSidebar ? 'w-0' : 'w-52'} no-scrollbar overflow-hidden bg-primary pt-24 flex flex-col gap-2 transition-all duration-500`}>
                 <div className={`${showSidebar ? 'flex' : 'hidden'} flex-col gap-2`}>
                 <Nav 
                 link={'/guru/dashboard'} 
@@ -71,31 +71,32 @@ const Sidebar = ({showSidebar}) => {
         )
     }
 
-
-    return (
-        <div className={`h-screen ${!showSidebar ? 'w-0' : closeSidebar ? 'w-0' : 'w-64'} overflow-hidden bg-primary pt-24 flex flex-col gap-2 transition-all duration-500`}>
-                <div className={`${showSidebar ? 'flex' : 'hidden'} flex-col gap-2`}>
-                <Nav 
-                link={'/siswa/dashboard'} 
-                name={'Dashboard'}
-                >
-                    <AiFillDashboard/>
-                </Nav>
-                <Nav 
-                link={'/siswa/jadwal-ujian'} 
-                name={'Jadwal Ujian'}
-                >
-                    <AiFillClockCircle/>
-                </Nav>
-                <Nav 
-                link={'/siswa/hasil-ujian'} 
-                name={'Hasil Ujian'}
-                >
-                    <FaFile/>
-                </Nav>
-                </div>
-        </div>
-    )
+    if(userId == 'siswa'){
+        return (
+            <div className={`h-dvh fixed z-40 top-0 left-0 ${!showSidebar ? 'w-0' : closeSidebar ? 'w-0' : 'w-52'} no-scrollbar overflow-hidden bg-primary pt-24 flex flex-col gap-2 transition-all duration-500`}>
+                    <div className={`${showSidebar ? 'flex' : 'hidden'} flex-col gap-2`}>
+                    <Nav 
+                    link={'/siswa/dashboard'} 
+                    name={'Dashboard'}
+                    >
+                        <AiFillDashboard/>
+                    </Nav>
+                    <Nav 
+                    link={'/siswa/jadwal-ujian'} 
+                    name={'Jadwal Ujian'}
+                    >
+                        <AiFillClockCircle/>
+                    </Nav>
+                    <Nav 
+                    link={'/siswa/hasil-ujian'} 
+                    name={'Hasil Ujian'}
+                    >
+                        <FaFile/>
+                    </Nav>
+                    </div>
+            </div>
+        )
+    }
 }
 
 

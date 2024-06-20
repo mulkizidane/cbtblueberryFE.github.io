@@ -12,7 +12,7 @@ const AdminSidebar = ({showSidebar, closeSidebar}) => {
     const [activeDropdown, setActiveDropdown] = useState(null);
 
     return (
-        <div className={`h-screen ${!showSidebar ? 'w-0' : closeSidebar ? 'w-0' : 'w-64'} no-scrollbar overflow-hidden bg-primary pt-24 flex flex-col gap-2 transition-all duration-500`}>
+        <div className={`h-dvh fixed z-40 top-0 left-0 ${!showSidebar ? 'w-0' : closeSidebar ? 'w-0' : 'w-52'} no-scrollbar overflow-hidden bg-primary pt-24 flex flex-col gap-2 transition-all duration-500`}>
                 <div className={`${showSidebar ? 'flex' : 'hidden'} flex-col gap-2`}>
                 <Nav 
                 link={'/admin/dashboard'} 
@@ -30,7 +30,7 @@ const AdminSidebar = ({showSidebar, closeSidebar}) => {
                     <Nav 
                     name={'Data Mata Pelajaran'} 
                     padding={'py-1 px-2'}
-                    link={'/admin/data-master/data-matpel'} 
+                    link={'/admin/data-master/mata-pelajaran'} 
                     />
                     <Nav 
                     name={'Data Jenis Ujian'} 
@@ -38,29 +38,9 @@ const AdminSidebar = ({showSidebar, closeSidebar}) => {
                     link={'/admin/data-master/jenis-ujian'} 
                     />
                     <Nav 
-                    name={'Data Jurusan'} 
-                    padding={'py-1 px-2'}
-                    link={'/admin/data-master/jurusan'} 
-                    />
-                    <Nav 
                     name={'Data Kelas'} 
                     padding={'py-1 px-2'}
                     link={'/admin/data-master/kelas'} 
-                    />
-                    <Nav 
-                    name={'Data Ruangan'} 
-                    padding={'py-1 px-2'}
-                    link={'/admin/data-master/ruangan'} 
-                    />
-                    <Nav 
-                    name={'Data Level'} 
-                    padding={'py-1 px-2'}
-                    link={'/admin/data-master/level'} 
-                    />
-                    <Nav 
-                    name={'Data Sesi'} 
-                    padding={'py-1 px-2'}
-                    link={'/admin/data-master/sesi'} 
                     />
                 </NavDropdown>
                 <NavDropdown name={'Manager User'} icon={<FaUserGear/>} activeDropdown={activeDropdown} setActiveDropdown={setActiveDropdown}>
@@ -73,11 +53,6 @@ const AdminSidebar = ({showSidebar, closeSidebar}) => {
                     name={'Data Guru'} 
                     padding={'py-1 px-2'}
                     link={'/admin/manage-user/guru'} 
-                    />
-                    <Nav 
-                    name={'Data Pengawas'} 
-                    padding={'py-1 px-2'}
-                    link={'/admin/manage-user/pengawas'} 
                     />
                     <Nav 
                     name={'Data Siswa'} 

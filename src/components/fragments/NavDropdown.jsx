@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { FaChevronDown, FaChevronRight, FaChevronUp, FaFolder } from "react-icons/fa"
+import { FaChevronDown, FaChevronUp } from "react-icons/fa"
 
 const NavDropdown = ({name, icon, children, activeDropdown, setActiveDropdown}) => {
     const isActive = activeDropdown == name;

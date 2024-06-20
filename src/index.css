@@ -10,6 +10,14 @@ td{
     @apply px-4 py-1 font-semibold
 }
 
+button {
+    @apply hover:scale-[0.98] transition-all duration-300 hover:brightness-95
+}
+
+.question-wrap .list:nth-child(odd) {
+    @apply bg-secondary
+}
+
 /* styles.css */
 .no-scrollbar::-webkit-scrollbar {
     display: none;

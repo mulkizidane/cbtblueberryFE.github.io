@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 const TableHead = ({children}) => {
     return (
-<thead>
-                        <tr className="bg-btn text-white divide-x-2">
-                            {children}
-                        </tr>
-                    </thead>
+        <thead>
+            <tr className="bg-btn text-white divide-x-2">
+                {children}
+            </tr>
+        </thead>
     )
 }
 
