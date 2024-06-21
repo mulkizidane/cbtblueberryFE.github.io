@@ -5,7 +5,7 @@ import TextArea from "../components/fragments/TextArea";
 import Time from "../components/elements/Time";
 import { FaTrash } from "react-icons/fa";
 import DateComponent from "../components/elements/Date";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useFetchData } from "../services/fetchData";
@@ -19,8 +19,20 @@ const AnnouncementPage = () => {
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
 
-    useFetchData('http://localhost:5000/announcements', setData, setLoading)
-
+    useEffect(() => {
+        const fetchData = async () =>{
+            try {
+                const res = await axios.get(`http://localhost:5000/announcements`)
+                setData(res.data.data)
+                console.log(res.data.data)
+            } catch (error){
+                console.log(error)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchData()
+    }, [data])
     const handleUpload = async() => {
         try {
             const response = await axios.post(`http://localhost:5000/${userId}/announcement/upload`, {
@@ -83,7 +95,7 @@ const AnnouncementPage = () => {
                                     </td>
                                 </tr>
                                 : 
-                                data.data.map((dt, i) => (
+                                data?.map((dt, i) => (
                                 <tr key={dt.id}>
                                     <td>{i+1}</td>
                                     <td>{dt.title}</td>

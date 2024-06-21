@@ -114,7 +114,7 @@ const SoalModal = ({showSoal, setShowSoal}) => {
                             />
                             <RoundInput 
                             title={'KKM'}
-                            onChange={(e) => setNewData({...newData, kkm: e.target.value})}
+                            onChange={(e) => setNewData({...newData, passing_score: e.target.value})}
                             />
                         </div>
                         <div className="flex justify-end mt-4">

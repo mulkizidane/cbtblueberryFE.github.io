@@ -55,7 +55,7 @@ const DataStudentPage = () => {
         username,
         password
     }
-    
+
     useEffect(() => {
         if(isEdit){
             setShowAddModal(true)
@@ -157,12 +157,12 @@ const DataStudentPage = () => {
                                             <td><Loader/></td>
                                         </tr>
                                         :
-                                        data.length == 0 ?
+                                        data?.length == 0 ?
                                         <tr>
                                             <td colSpan={10}>No data available</td>
                                         </tr>
                                         :
-                                        data.slice(0, entries).map((dt, index) => (
+                                        data?.slice(0, entries).map((dt, index) => (
                                             <tr className={`${!dataId ? 'opacity-100' : dt.nis == dataId ? 'shadow-multiple scale-105' : 'opacity-50 blur-[1px]'} transition-all duration-150`} key={dt.nis}>
                                                 <td>{index+1}</td>
                                                 <td>{dt.nis}</td>

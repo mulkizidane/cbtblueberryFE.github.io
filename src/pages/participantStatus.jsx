@@ -18,10 +18,10 @@ const ParticipantStatusPage = () => {
 
     useEffect(() => {
         if(questRes){
-            const findCorrect = questRes[0].filter(dt => dt.result == true)
-            const findWrong = questRes[0].filter(dt => dt.result !== true)
-            setCorrAns(findCorrect.length)
-            setWrongAns(findWrong.length)
+            const findCorrect = questRes[0]?.filter(dt => dt.result == true)
+            const findWrong = questRes[0]?.filter(dt => dt.result !== true)
+            setCorrAns(findCorrect?.length)
+            setWrongAns(findWrong?.length)
         }
     }, [questRes])
 

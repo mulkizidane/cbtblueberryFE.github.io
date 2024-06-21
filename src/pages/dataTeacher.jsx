@@ -118,12 +118,12 @@ const DataTeacherPage = () => {
                                             <td><Loader/></td>
                                         </tr>
                                         :
-                                        data.length == 0 ?
+                                        data?.length == 0 ?
                                         <tr>
                                             <td colSpan={10}>No data available</td>
                                         </tr>
                                         :
-                                        data.slice(0, entries).map((dt, index) => (
+                                        data?.slice(0, entries).map((dt, index) => (
                                             <tr className={`${!dataId ? 'opacity-100' : dt.nip == dataId ? 'shadow-multiple scale-105' : 'opacity-50 blur-[1px]'} transition-all duration-150`} key={dt.nip}>
                                                 <td>{index+1}</td>
                                                 <td>{dt.nip}</td>

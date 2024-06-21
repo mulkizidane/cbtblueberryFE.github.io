@@ -125,7 +125,7 @@ const JadwalUjianLayout = ({width}) => {
                                         <Loader/>
                                         :
                                         data?.map(dt => (
-                                        <li key={dt.exam_code} className={`${dt.exam_code == examData[0]?.exam_code ? 'hidden' : ''} list-disc`}>
+                                        <li key={dt.exam_code} className={`${dt.exam_code == examData?.exam_code ? 'hidden' : ''} list-disc`}>
                                             <h1 className="font-bold">{dt.subject}</h1>
                                             <div onClick={() => handleCopy(dt.exam_token)} className="flex gap-2 mt-1 text-btn items-center cursor-pointer">
                                                 <FaCopy/>

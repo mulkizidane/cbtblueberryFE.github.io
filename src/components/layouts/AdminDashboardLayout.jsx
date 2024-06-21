@@ -115,7 +115,7 @@ const AdminDashboardLayout = () => {
                                     <Loader/>
                             </div>
                                 :
-                            data.data?.map(dt => (
+                            data?.data?.map(dt => (
                                 <InformationCard 
                                 key={dt.id}
                                 title={dt.title}
